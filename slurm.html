@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <title>SLURM job script generator</title>
+   <script type="text/javascript" src="jquery-1.6.4.min.js"></script>
+   <LINK href="slurm.css" rel="stylesheet" type="text/css"> 
+</head>
+
+<body>
+
+<div id="wrap">
+
+  <div id="header">
+     <h2>Job script generator for SLURM</h2>
+
+     <p>This page generates job scripts for the <a href="http://slurm.schedmd.com/">SLURM resource manager</a>.</p>
+     <p>Enter the details of your job in the form below and then click on the <a href="#makescript">make script</a> button below.</p>
+   </div><!-- header -->
+
+  <div id="col01">
+
+     <h3>Job Name</h3>
+
+     <p><input id="name" type="text" value="">
+     <input id="shownamehelp" type="button" value="help"></p>
+
+     <div class="helpbox" id="namehelp">
+        <div class="helpboxtext">
+           <p>It is a good idea to give your job a meaningful name. This will help you
+           identify it when listing the job queue.</p>
+        </div><!-- helpboxtext -->
+     </div><!-- namehelp -->
+
+     <h3>Job Type</h3>
+
+     <p><select id="jobtype">
+        <option value="standard">standard</option>
+        <option value="smp">SMP</option>
+     </select>
+
+     <input id="showjobtypehelp" type="button" value="help"></p>
+
+     <div class="helpbox" id="jobtypehelp">
+        <div class="helpboxtext">
+
+        <h4>standard</h4>
+
+           <p>Suitable for distributed parallel jobs (such as those which use MPI), and single
+           CPU core jobs.</p>
+
+        <h4>SMP</h4>
+
+          <p>Suitable for shared-memory multithreaded jobs. <em>Note</em> these jobs will be
+          allocated an entire node on the system, but cannot use more than one node.</p>
+
+        </div><!-- helpboxtext -->
+     </div><!-- jobtypehelp -->
+
+     <div id="coresSection">
+
+        <h3>CPU Cores</h3>
+
+        <p><input class="numinput" id="cores" type="text" value="1"> <input id=
+        "showcoreshelp" type="button" value="help"></p>
+
+        <div class="helpbox" id="coreshelp">
+
+           <div class="helpboxtext">
+              <p>Enter the maximum number of CPU cores needed by your job.</p>
+           </div><!-- helpboxtext -->
+        </div><!-- coreshelp -->
+     </div><!-- coresSection -->
+
+     <h3>Memory in Gigabytes</h3>
+
+     <p><input class="numinput" id="memory" type="text"> <input id="showmemoryhelp" type="button" value="help"></p>
+
+     <div class="helpbox" id="memoryhelp">
+        <div class="helpboxtext">
+
+           <h4>standard jobs</h4>
+
+           <p>For standard jobs this specifies the amount of memory allocated to each CPU core
+           requested by the job. The total memory used is equal to the number of cores in the
+           job multiplied by the amount of memory requested. If you leave this blank then your
+           job will be allocated 1 gigabyte per CPU core.</p>
+
+           <p>For example if you request 2 CPU cores and 4GB of memory per core, the total
+           memory used by the job is 8GB.</p>
+
+           <h4>SMP jobs</h4>
+
+           <p>For SMP jobs this is the total memory allocated for the job, irrespective of the number of CPU cores.</p>
+        </div><!-- helpboxtext -->
+     </div><!-- memoryhelp -->
+
+     <h3>Email</h3>
+
+     <p>Send yourself an email when the job:</p>
+
+     <table>
+        <tbody>
+           <tr>
+              <td>starts running</td>
+              <td><input id="emailjobstart" type="checkbox"></td>
+           </tr>
+           <tr>
+              <td>ends successfully</td>
+              <td><input id="emailjobend" type="checkbox"></td>
+           </tr>
+   
+           <tr>
+              <td>ends with an error</td>
+              <td><input id="emailjobdie" type="checkbox"></td>
+           </tr>
+        </tbody>
+     </table>
+ 
+     <br>
+
+     <p>Use this email address:<br>
+     <input id="emailaddress" type="text"></p>
+
+     <p><input id="showemailhelp" type="button" value="help"></p>
+
+     <div class="helpbox" id="emailhelp">
+        <div class="helpboxtext">
+           <p>You can be notified by email when your job starts running or when it ends
+           (either successfully or with an error).</p>
+
+           <p>You can specify an address to receive the email. If you leave it blank the email
+           will be sent to the address registered with your user account.</p>
+        </div><!-- helpboxtext -->
+     </div><!-- emailhelp -->
+
+  </div><!-- col01 --> 
+
+  <div id="col02">
+
+     <h3>Walltime</h3>
+
+     <table>
+        <tbody>
+           <tr>
+              <td>Days</td>
+              <td><input class="numinput" id="days" type="text" value="0"></td>
+              <td>Hours</td>
+              <td><input class="numinput" id="hours" type="text" value="1"></td>
+              <td>Mins</td>
+              <td><input class="numinput" id="minutes" type="text" value="0"></td>
+           </tr>
+        </tbody>
+     </table>
+
+     <!-- <br> -->
+
+     <p><input id="showtimehelp" type="button" value="help"></p>
+
+     <div class="helpbox" id="timehelp">
+        <div class="helpboxtext">
+           <p>Enter the maximum amount of time needed by your whole job.</p>
+        </div><!-- helpboxtext -->
+     </div><!-- timehelp -->
+
+     <h3>Directory</h3>
+
+     <p>Run the job from:</p>
+
+     <table>
+        <tbody>
+           <tr>
+              <td><input checked="CHECKED" id="workdir" name="directory" type="radio" value="workdir"></td>
+              <td>The same directory where it is launched.</td>
+           </tr>
+
+           <tr>
+              <td><input id="homedir" name="directory" type="radio" value="homedir"></td>
+              <td>Your home directory.</td>
+           </tr>
+
+           <tr>
+              <td><input id="otherdir" name="directory" type="radio" value="otherdir"></td>
+              <td>The directory with this name:<br>
+              <input id="otherdirname" type="text"></td>
+           </tr>
+        </tbody>
+     </table>
+
+     <p><input id="showdirhelp" type="button" value="help"></p>
+
+     <div class="helpbox" id="dirhelp">
+        <div class="helpboxtext">
+
+           <p>Each job is run from a given directory on the computer's filesystem - this is
+           called the <em>working directory</em> in Unix terminology.</p>
+   
+           <p>You need to set the working directory correctly so that your job can find its
+           input files and generate its output files in the appropriate location.</p>
+   
+           <p>In most cases it is desirable to set this to the directory where the job was
+           launched, but you might also like it to be your home directory, or from some
+           other specific directory on the computer.</p>
+   
+           <p>If you specify the directory, it must be an absolute reference (i.e.
+           /home/foo/mydir) or relative to the launch directory.</p>
+        </div><!-- helpboxtext -->
+     </div><!-- dirhelp -->
+
+     <h3>Modules</h3>
+
+     <p>Enter the modules that you would like to load:</p>
+
+     <p>
+     <textarea id="modules" rows="4">
+     </textarea><input id="showmoduleshelp" type="button" value="help"></p>
+
+     <div class="helpbox" id="moduleshelp">
+        <div class="helpboxtext">
+           <p>The <em>modules</em> utility sets up your Unix environment for particular
+           versions of specified programs. It is possible to use more than one module in
+           your job (just list all the ones you need on separate lines).</p>
+
+           <p>For example to use version <tt>3.2</tt> of the application <tt>foo</tt>, which
+           was compiled with <tt>gcc</tt>, you should load the module called:</p>
+
+           <p><tt>foo-gcc/3.2</tt></p>
+        </div><!-- helpboxtext -->
+    </div><!-- moduleshelp -->
+
+  </div><!-- col02 -->
+
+  <div id="footer">
+  <h3>Command</h3>
+
+  <p>
+  <textarea id="command" rows="4"></textarea>
+  <br>
+
+  <input id="showcommandhelp" type="button" value="help"></p>
+
+  <div class="helpbox" id="commandhelp">
+     <div class="helpboxtext">
+        <p>Enter the command (or commands) that you want to run, one per line.</p>
+        <p>Note that MPI jobs need to prefix the command with <em>mpirun</em>.</p>
+     </div><!-- commandhelp -->
+  </div><!-- showcommandhelp -->
+
+  <h3>The job script</h3>
+
+  <p>Click on the button to make your script. If you change any of the values in the form
+  above you can re-generate the script by clicking the button again.</p>
+
+  <p><input id="makescript" type="button" value="make script"></p>
+
+  <div id="serviceunits"></div><!-- serviceunits -->
+
+  <div id="jobscript"></div><!-- jobscript -->
+
+  <script type="text/javascript" src="slurm.js">
+  </script>
+
+  </div><!-- footer -->
+
+</div><!-- wrap -->
+
+</body>
+</html>

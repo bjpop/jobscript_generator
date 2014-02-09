@@ -1,0 +1,74 @@
+/* style sheet for SLURM job script generator */
+
+@import url(http://fonts.googleapis.com/css?family=PT+Serif|PT+Serif:b|PT+Serif:i|PT+Sans|PT+Sans:b);
+
+body, html {
+   margin:0;
+   padding:0;
+   background: #fcfcfa;
+   color: #333;
+   font-family: "PT Serif", serif;
+}
+
+#wrap {
+   width:800px;
+   margin:0 auto;
+   /* background:#99c; */
+}
+
+#col01 {
+   float:left;
+   width:400px;
+   /* background:#9c9; */
+}
+
+#col02 {
+   float:right;
+   width:400px;
+   /* background:#c9c; */
+}
+
+#footer {
+   clear:both;
+   /* background:#cc9; */
+}
+
+#jobCode {
+   overflow: auto;
+   border:1px;
+   border-style:solid;
+   padding: 20px
+}
+
+#command {
+   width:98%;
+}
+
+#content h4 {
+   /* color:#111111; */
+}
+
+#modules {
+   width:95%;
+}
+
+.numinput {
+   width:40px;
+}
+
+#otherdirname {
+   width:350px;
+}
+
+.helpbox {
+   background:#ccc;
+   display:none
+}
+
+.helpboxtext {
+   margin:10px;
+}
+
+#commandhelp {
+   width:50%;
+}
